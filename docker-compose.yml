@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_PATH=/app/no_secret_movies.db
+      - LOG_LEVEL=info
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/movies"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: SQLite web UI
+  sqliteweb:
+    image: coleifer/sqlite-web
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./data:/data
+    command: /data/no_secret_movies.db
+    depends_on:
+      - app
