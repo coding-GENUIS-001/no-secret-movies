@@ -1,0 +1,12 @@
+build/
+.git/
+.gitignore
+*.md
+*.db
+data/
+logs/
+.vscode/
+.idea/
+CMakeFiles/
+cmake_install.cmake
+CMakeCache.txt
